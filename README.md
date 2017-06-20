@@ -11,5 +11,9 @@ if err != nil {
 
 ```
 Some error
-a:"value of a\\n"	b:42
+	a:value of a\\n	b:42
 ```
+
+## LICENSE
+
+MIT
