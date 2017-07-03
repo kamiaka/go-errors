@@ -22,7 +22,7 @@ func appendCallers(buf []byte) []byte {
 			file, line := fn.FileLine(pc)
 			name := fn.Name()
 			if i != 0 {
-				buf = append(buf, '\n')
+				buf = append(buf, ',')
 			}
 			buf = append(buf, name...)
 			buf = append(buf, '(', ')', ':')
