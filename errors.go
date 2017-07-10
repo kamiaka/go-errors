@@ -34,9 +34,8 @@ func (e *errorString) WithFields() ErrorWithFields {
 // WrappedError is error and wrapped error.
 // that can handling original error and
 type WrappedError interface {
-	Error() string
+	Error
 	Origin() error
-	WithFields() ErrorWithFields
 }
 
 type wrapError struct {
