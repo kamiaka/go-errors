@@ -3,13 +3,73 @@ package errors
 import (
 	"fmt"
 	"time"
-
-	"github.com/pkg/errors"
 )
 
+// Error is error interface.
+// that has WithFileds method.
+type Error interface {
+	Error() string
+	WithFields() ErrorWithFields
+}
+
+type errorString struct {
+	msg string
+}
+
 // New returns new error.
-func New(msg string) error {
-	return errors.New(msg)
+func New(msg string) Error {
+	return &errorString{
+		msg: msg,
+	}
+}
+
+func (e *errorString) Error() string {
+	return e.msg
+}
+
+func (e *errorString) WithFields() ErrorWithFields {
+	return WithFields(e)
+}
+
+// WrappedError is error and wrapped error.
+// that can handling original error and
+type WrappedError interface {
+	Error() string
+	Origin() error
+	WithFields() ErrorWithFields
+}
+
+type wrapError struct {
+	error
+	msg string
+}
+
+// Wrap error and returns error with fields.
+func Wrap(err error, msg string) WrappedError {
+	return &wrapError{
+		error: err,
+		msg:   msg,
+	}
+}
+
+// Wrapf returns wrapped error.
+func Wrapf(msg string, err error) WrappedError {
+	return &wrapError{
+		error: err,
+		msg:   fmt.Sprintf(msg, err),
+	}
+}
+
+func (e *wrapError) Error() string {
+	return e.msg
+}
+
+func (e *wrapError) Origin() error {
+	return e.error
+}
+
+func (e *wrapError) WithFields() ErrorWithFields {
+	return WithFields(e)
 }
 
 // ErrorWithFields annotate
