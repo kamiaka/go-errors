@@ -1,17 +1,13 @@
 # go-errors
 
+Golang error library v2.
+
+Want v1 ? See [here](https://github.com/kamiaka/go-errors/tree/master).
+
 ## Adding labeled value to an error
 
 ```go
-_, err := Foo(a, b) // returned fmt.Errorf("Some error")
-if err != nil {
-	return errors.WithFields(err).String("a", a).Int("b", b)
-}
-```
 
-```
-Some error
-	a:value of a\\n	b:42
 ```
 
 ## LICENSE
