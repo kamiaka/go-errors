@@ -6,10 +6,11 @@ import (
 )
 
 // Error is error interface.
-// that has WithFileds method.
+// that has WithFields method.
 type Error interface {
 	Error() string
 	WithFields() ErrorWithFields
+	Unwrap() error
 }
 
 type errorString struct {
@@ -29,6 +30,10 @@ func (e *errorString) Error() string {
 
 func (e *errorString) WithFields() ErrorWithFields {
 	return WithFields(e)
+}
+
+func (e *errorString) Unwrap() error {
+	return nil
 }
 
 // WrappedError is error and wrapped error.
@@ -67,6 +72,10 @@ func (e *wrapError) Origin() error {
 	return e.error
 }
 
+func (e *wrapError) Unwrap() error {
+	return e.error
+}
+
 func (e *wrapError) WithFields() ErrorWithFields {
 	return WithFields(e)
 }
@@ -78,6 +87,9 @@ type ErrorWithFields interface {
 
 	// Origin returns original error.
 	Origin() error
+
+	// Unwrap returns original error.
+	Unwrap() error
 
 	// Format is implementation for fmt.Formatter.
 	Format(s fmt.State, verb rune)

@@ -32,6 +32,10 @@ func (b *withBuffer) Origin() error {
 	return b.error
 }
 
+func (b *withBuffer) Unwrap() error {
+	return b.error
+}
+
 func (b *withBuffer) Format(s fmt.State, verb rune) {
 	switch verb {
 	case 'v':
